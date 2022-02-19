@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { shadowOffset } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default function App() {
   return (
