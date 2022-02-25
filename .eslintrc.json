@@ -13,6 +13,7 @@
   "plugins": ["react"],
   "rules": {
     "no-use-before-define": 0,
-    "react/prop-types": ["error", { "ignore": ["navigation"] }] // Navigatioのerrorを無視
+    "react/prop-types": ["error", { "ignore": ["navigation"] }], // Navigatioのerrorを無視
+    "import/prefer-default-export": 0 // expoert defaultと書かなくてもいいように修正
   }
 }
