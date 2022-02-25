@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,22 @@ export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // そのままだと rendering の度に実行されてしまうため、
+  // コールバック関数の第二引数に [] を設定して画面を表示した一度だけ処理を実行
+  useEffect(() => {
+    // onAuthStateChangedを実行すると返り値の関数を取得出来る
+    // 上記関数を実行するとユーザーの監視をキャンセルできる
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      }
+    });
+    return unsubscribe; // LogInScreenがアンマウントされる直前に実行
+  }, []); // ここ
 
   function handlePress() {
     firebase
