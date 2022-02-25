@@ -61,12 +61,12 @@ MemoList.propTypes = {
       updatedAt: instanceOf(Date),
     })
   ).isRequired,
-  container: {
-    flex: 1,
-  },
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   memoListItem: {
     backgroundColor: '#ffffff',
     flexDirection: 'row',
