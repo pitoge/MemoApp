@@ -33,19 +33,21 @@ export default function MemoDetailScreen(props) {
   }, []);
 
   return (
-    <View style={Styles.container}>
-      <View style={Styles.memoHeader}>
+    <View style={styles.container}>
+      <View style={styles.memoHeader}>
         {/* && の意味：左辺がnullじゃない場合のみ右辺を取得するため、エラー回避出来る */}
-        <Text style={Styles.memoTitle} numberOfLines={1}>
+        <Text style={styles.memoTitle} numberOfLines={1}>
           {memo && memo.bodyText}
         </Text>
-        <Text style={Styles.memoDate}>
+        <Text style={styles.memoDate}>
           {memo && dateToString(memo.updatedAt)}
         </Text>
       </View>
 
-      <ScrollView style={Styles.memoBody}>
-        <Text style={Styles.memoText}>{memo && memo.bodyText}</Text>
+      <ScrollView>
+        <View style={styles.memoBodyInner}>
+          <Text style={styles.memoText}>{memo && memo.bodyText}</Text>
+        </View>
       </ScrollView>
       <CircleButton
         style={{ top: 60, bottom: 'auto' }}
@@ -67,7 +69,7 @@ MemoDetailScreen.propTypes = {
   }).isRequired,
 };
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
@@ -90,8 +92,9 @@ const Styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
   },
-  memoBody: {
-    paddingVertical: 32,
+  memoBodyInner: {
+    paddingTop: 32,
+    paddingBottom: 80,
     paddingHorizontal: 27,
   },
   memoText: {

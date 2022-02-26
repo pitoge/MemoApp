@@ -8,12 +8,13 @@ import {
   FlatList,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { shape, string, instanceOf, arrayOf } from 'prop-types';
+import {
+  shape, string, instanceOf, arrayOf,
+} from 'prop-types';
+import firebase from 'firebase';
 
 import Icon from './Icon';
 import { dateToString } from '../utils';
-
-import firebase from 'firebase';
 
 export default function MemoList(props) {
   const { memos } = props;
@@ -51,7 +52,7 @@ export default function MemoList(props) {
           navigation.navigate('MemoDetail', { id: item.id });
         }}
       >
-        <View>
+        <View style={styles.memoInner}>
           <Text style={styles.memoListItemTitle} numberOfLines={1}>
             {item.bodyText}
           </Text>
@@ -105,6 +106,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: 'rgba(0,0,0,0.15)',
+  },
+  memoInner: {
+    flex: 1,
   },
   memoListItemTitle: {
     fontSize: 16,
