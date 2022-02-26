@@ -11,6 +11,7 @@ import firebase from 'firebase';
 
 import Button from '../components/Button';
 import Loading from '../components/Loading';
+import { translateErrors } from '../utils';
 
 export default function LogInScreen(props) {
   const { navigation } = props;
@@ -53,7 +54,8 @@ export default function LogInScreen(props) {
         });
       })
       .catch((error) => {
-        Alert.alert(error.code);
+        const errorMsg = translateErrors(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       })
       // 下記は成功時でも失敗時でも呼ばれる
       .then(() => {
