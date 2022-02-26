@@ -10,29 +10,36 @@ import {
 import firebase from 'firebase';
 
 import Button from '../components/Button';
+import Loading from '../components/Loading';
 
 export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setLoading] = useState(true);
 
   // そのままだと rendering の度に実行されてしまうため、
-  // コールバック関数の第二引数に [] を設定して画面を表示した一度だけ処理を実行
+  // useEffectのコールバック関数の第二引数に
+  // [] を設定して画面を表示した一度だけ処理を実行
   useEffect(() => {
-    // onAuthStateChangedを実行すると返り値の関数を取得出来る
-    // 上記関数を実行するとユーザーの監視をキャンセルできる
+    // onAuthStateChanged：ユーザーのログイン状態をチェック
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         navigation.reset({
           index: 0,
           routes: [{ name: 'MemoList' }],
         });
+      } else {
+        setLoading(false);
       }
     });
+    // onAuthStateChangedを実行すると返り値の関数を取得出来る
+    // 上記関数を以下のように実行するとユーザーの監視をキャンセルできる
     return unsubscribe; // LogInScreenがアンマウントされる直前に実行
-  }, []); // ここ
+  }, []);
 
   function handlePress() {
+    setLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -47,11 +54,16 @@ export default function LogInScreen(props) {
       })
       .catch((error) => {
         Alert.alert(error.code);
+      })
+      // 下記は成功時でも失敗時でも呼ばれる
+      .then(() => {
+        setLoading(false);
       });
   }
 
   return (
     <View style={styles.container}>
+      <Loading isLoading={isLoading} />
       <View style={styles.inner}>
         <Text style={styles.title}>Log In</Text>
         <TextInput
